@@ -1,0 +1,326 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Poppins:wght@200;300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-maroon-black: #220306;
+  --color-maroon: #4A0714;
+  --color-maroon-light: #650B1C;
+  --color-gold: #C8A646;
+  --color-gold-muted: #B59338;
+  --color-ivory: #F7F1E9;
+  --color-champagne: #EDE5D8;
+  
+  --font-cinzel: "Cinzel", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
+  --font-poppins: "Poppins", sans-serif;
+}
+
+/* ─── Base Styles ─── */
+@layer base {
+  html {
+    overflow-x: hidden;
+  }
+  
+  body {
+    background-color: var(--color-maroon-black);
+    color: var(--color-ivory);
+    font-family: var(--font-poppins);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-cinzel);
+    letter-spacing: 0.05em;
+  }
+  
+  p, span, li, a, button, input, select, textarea {
+    font-family: var(--font-poppins);
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-maroon-black);
+  }
+  
+  /* Premium royal scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--color-maroon-black); }
+  ::-webkit-scrollbar-thumb { background: var(--color-gold); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-ivory); }
+}
+
+/* ─── Typography Utilities ─── */
+.font-cinzel   { font-family: var(--font-cinzel); }
+.font-cormorant { font-family: var(--font-cormorant); }
+.font-poppins  { font-family: var(--font-poppins); }
+
+.editorial-overline {
+  font-family: var(--font-poppins);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.editorial-h1 {
+  font-family: var(--font-cinzel);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+.editorial-h2 {
+  font-family: var(--font-cinzel);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.editorial-pullquote {
+  font-family: var(--font-cormorant);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--color-ivory);
+}
+
+.editorial-body {
+  font-family: var(--font-poppins);
+  font-weight: 300;
+  font-size: 0.8rem;
+  line-height: 1.9;
+  color: rgba(242,231,216,0.75);
+}
+
+/* ─── Gold Divider ─── */
+.gold-line {
+  width: 40px;
+  height: 1px;
+  background: var(--color-gold);
+  display: block;
+}
+
+.gold-line-full {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-gold), transparent);
+  display: block;
+  opacity: 0.35;
+}
+
+/* ─── Frame Borders ─── */
+.editorial-border-gold {
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.editorial-border-gold-light {
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.editorial-frame-dark {
+  position: relative;
+  padding: 2rem;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background-color: var(--color-maroon);
+}
+
+.editorial-frame-dark::after {
+  content: '';
+  position: absolute;
+  top: 5px; left: 5px; right: 5px; bottom: 5px;
+  border: 1px solid rgba(212, 175, 55, 0.08);
+  pointer-events: none;
+}
+
+.inset-frame::after {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Marquee / Filmstrip ─── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 28s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Ken Burns ─── */
+.ken-burns-slow {
+  animation: kenBurnsSlow 20s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurnsSlow {
+  0%   { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.07) translate(-1%, -0.5%); }
+}
+
+/* ─── Smooth image cover ─── */
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ─── Service number hover states ─── */
+.service-item {
+  cursor: pointer;
+  transition: color 0.4s ease;
+}
+
+.service-item.active .service-num { color: var(--color-gold); }
+.service-item.active .service-title { color: var(--color-ivory); }
+
+/* ─── Filmstrip drag cursor ─── */
+.filmstrip {
+  cursor: grab;
+  user-select: none;
+}
+
+.filmstrip:active {
+  cursor: grabbing;
+}
+
+/* ─── Input Styles ─── */
+.luxury-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+  color: var(--color-ivory);
+  font-family: var(--font-poppins);
+  font-size: 0.75rem;
+  font-weight: 300;
+  padding: 0.75rem 0;
+  outline: none;
+  transition: border-color 0.4s ease;
+}
+
+.luxury-input::placeholder {
+  color: rgba(242, 231, 216, 0.35);
+  font-style: italic;
+}
+
+.luxury-input:focus {
+  border-bottom-color: var(--color-gold);
+}
+
+.luxury-select {
+  width: 100%;
+  background: rgba(58, 12, 19, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: var(--color-ivory);
+  font-family: var(--font-poppins);
+  font-size: 0.7rem;
+  padding: 0.65rem 0.85rem;
+  outline: none;
+  transition: border-color 0.4s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.luxury-select:focus {
+  border-color: var(--color-gold);
+}
+
+/* ─── Testimonial Navigation Dots ─── */
+.testimonial-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.testimonial-dot.active {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  transform: scale(1.3);
+}
+
+/* ─── AI Board output card ─── */
+.ai-module-card {
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(58, 12, 19, 0.5);
+  padding: 2rem;
+  position: relative;
+}
+
+.ai-module-card::before {
+  content: '';
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.06);
+  pointer-events: none;
+}
+
+/* ─── Hero Luxury Enhancements (Louis Vuitton Aesthetic) ─── */
+.btn-glow-gold {
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.3), 0 0 50px rgba(212, 175, 55, 0.15);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-glow-gold:hover {
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.6), 0 0 70px rgba(212, 175, 55, 0.3);
+}
+
+.btn-glow-ivory {
+  box-shadow: 0 0 20px rgba(249, 245, 239, 0.15), 0 0 40px rgba(212, 175, 55, 0.1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-glow-ivory:hover {
+  box-shadow: 0 0 35px rgba(249, 245, 239, 0.4), 0 0 60px rgba(212, 175, 55, 0.25);
+}
+
+@keyframes rayShimmer {
+  0% { opacity: 0.25; transform: rotate(-5deg) scale(1); }
+  50% { opacity: 0.5; transform: rotate(-2deg) scale(1.08); }
+  100% { opacity: 0.25; transform: rotate(-5deg) scale(1); }
+}
+
+.ambient-ray-1 {
+  background: radial-gradient(ellipse at 80% 20%, rgba(212, 175, 55, 0.28) 0%, rgba(58, 12, 19, 0.15) 45%, transparent 75%);
+  animation: rayShimmer 14s ease-in-out infinite alternate;
+  filter: blur(40px);
+}
+
+.ambient-ray-2 {
+  background: radial-gradient(ellipse at 20% 60%, rgba(242, 231, 216, 0.12) 0%, rgba(212, 175, 55, 0.08) 40%, transparent 70%);
+  animation: rayShimmer 18s ease-in-out infinite alternate-reverse;
+  filter: blur(50px);
+}
+
+@keyframes lineShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.gold-line-animated {
+  position: relative;
+  overflow: hidden;
+}
+.gold-line-animated::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  animation: lineShine 3.5s infinite;
+}
+
