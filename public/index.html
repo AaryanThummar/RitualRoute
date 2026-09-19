@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RitualRoute - Cross-Cultural Wedding Planning Platform</title>
+  <meta name="description" content="RitualRoute harmonizes multicultural and interfaith wedding traditions, multi-event RSVP tracking, cultural vendor directories, and sacred ceremony guides.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Royal Decorative Accent Line -->
+  <div class="royal-header-bar"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="brand-wrapper" onclick="switchTab('dashboard')">
+        <div class="brand-icon">
+          <i class="fa-solid fa-om"></i>
+        </div>
+        <div class="brand-text">
+          <h1>RitualRoute</h1>
+          <span>Cross-Cultural Wedding Platform</span>
+        </div>
+      </div>
+
+      <ul class="nav-tabs">
+        <li>
+          <button class="nav-tab-btn active" onclick="switchTab('dashboard')">
+            <i class="fa-solid fa-compass"></i> Dashboard
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('harmonizer')">
+            <i class="fa-solid fa-hands-holding-circle"></i> Harmonizer
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('rituals')">
+            <i class="fa-solid fa-scroll"></i> Traditions
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('guests')">
+            <i class="fa-solid fa-users"></i> Guests & RSVP
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('budget')">
+            <i class="fa-solid fa-coins"></i> Budget
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('vendors')">
+            <i class="fa-solid fa-handshake"></i> Vendors
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tasks')">
+            <i class="fa-solid fa-list-check"></i> Checklist
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('companion')">
+            <i class="fa-solid fa-book-open"></i> Guest Guide
+          </button>
+        </li>
+      </ul>
+
+      <!-- Database Status Badge -->
+      <div id="dbStatusBadge" class="db-status-badge fallback" title="Click to view database connection info" onclick="showDbStatusModal()">
+        <span class="status-indicator"></span>
+        <span id="dbStatusText">Checking DB...</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main-wrapper">
+
+    <!-- ========================================================
+         VIEW 1: DASHBOARD
+         ======================================================== -->
+    <section id="view-dashboard" class="view-section active">
+      <!-- Wedding Hero Header -->
+      <div class="wedding-hero">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-couple-tag">
+              <i class="fa-solid fa-infinity"></i> <span id="heroCultures">Hindu & Sikh Celebration</span>
+            </div>
+            <h2 class="hero-title" id="heroWeddingTitle">Aanya & Kabir's Wedding</h2>
+            <div class="hero-subtitle">
+              <span><i class="fa-regular fa-calendar-check"></i> <span id="heroWeddingDate">November 20, 2026</span></span>
+              <span>•</span>
+              <span><i class="fa-solid fa-location-dot"></i> <span id="heroVenue">Jaipur & Chandigarh</span></span>
+            </div>
+          </div>
+          <div class="hero-countdown">
+            <div class="countdown-number" id="countdownDays">62</div>
+            <div class="countdown-label">Days Until Nuptials</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Controls -->
+      <div style="display: flex; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap;">
+        <button class="btn-gold" onclick="switchTab('harmonizer')">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Harmonize 2 Cultures
+        </button>
+        <button class="btn-primary" onclick="openModal('modal-guest')">
+          <i class="fa-solid fa-user-plus"></i> Add Guest
+        </button>
+        <button class="btn-outline" onclick="openModal('modal-budget')">
+          <i class="fa-solid fa-receipt"></i> Log Expense
+        </button>
+        <button class="btn-outline" onclick="openModal('modal-task')">
+          <i class="fa-solid fa-plus"></i> Add Task
+        </button>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card" onclick="switchTab('guests')">
+          <div class="kpi-icon burgundy">
+            <i class="fa-solid fa-envelope-open-text"></i>
+          </div>
+          <div class="kpi-info">
+            <h3>RSVP Confirmed</h3>
+            <div class="kpi-val" id="kpiConfirmedGuests">0</div>
+            <div class="kpi-subtext" id="kpiTotalHeadcount">Total Headcount: 0</div>
+          </div>
+        </div>
+
+        <div class="kpi-card" onclick="switchTab('budget')">
+          <div class="kpi-icon gold">
+            <i class="fa-solid fa-vault"></i>
+          </div>
+          <div class="kpi-info">
+            <h3>Budget Invested</h3>
+            <div class="kpi-val" id="kpiBudgetSpent">₹0</div>
+            <div class="kpi-subtext" id="kpiBudgetRemaining">Remaining: ₹0</div>
+          </div>
+        </div>
+
+        <div class="kpi-card" onclick="switchTab('rituals')">
+          <div class="kpi-icon emerald">
+            <i class="fa-solid fa-fire-burner"></i>
+          </div>
+          <div class="kpi-info">
+            <h3>Sacred Rituals</h3>
+            <div class="kpi-val" id="kpiRitualsCount">0</div>
+            <div class="kpi-subtext">Across 4 Cultures</div>
+          </div>
+        </div>
+
+        <div class="kpi-card" onclick="switchTab('tasks')">
+          <div class="kpi-icon blue">
+            <i class="fa-solid fa-clipboard-check"></i>
+          </div>
+          <div class="kpi-info">
+            <h3>Checklist Progress</h3>
+            <div class="kpi-val" id="kpiTaskProgress">0%</div>
+            <div class="kpi-subtext" id="kpiTaskCount">0 of 0 Completed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Rituals Teaser -->
+      <div class="section-head" style="margin-top: 2rem;">
+        <h2><i class="fa-solid fa-sun"></i> Core Ceremonial Milestones</h2>
+        <p>Curated traditional steps honoring both families' heritages.</p>
+      </div>
+      <div class="cards-grid" id="dashboardRitualsPreview">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 2: RITUAL HARMONIZER
+         ======================================================== -->
+    <section id="view-harmonizer" class="view-section">
+      <div class="harmonizer-banner">
+        <div class="section-head">
+          <h2><i class="fa-solid fa-hands-holding-circle"></i> Cross-Cultural Ritual Harmonizer</h2>
+          <p>Seamlessly weave two wedding traditions together. Our algorithmic harmonizer resolves ceremonial timing conflicts, coordinates dress codes, and provides guest etiquette guidelines.</p>
+        </div>
+
+        <div class="blend-control-grid">
+          <div class="form-group">
+            <label>Tradition 1 (Primary)</label>
+            <select id="blendCultureA" class="form-control">
+              <option value="Hindu">Hindu (Vedic Tradition)</option>
+              <option value="Sikh">Sikh (Anand Karaj)</option>
+              <option value="Christian">Christian / Western</option>
+              <option value="Muslim">Muslim (Nikah)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Tradition 2 (Harmonized)</label>
+            <select id="blendCultureB" class="form-control">
+              <option value="Sikh">Sikh (Anand Karaj)</option>
+              <option value="Hindu">Hindu (Vedic Tradition)</option>
+              <option value="Christian">Christian / Western</option>
+              <option value="Muslim">Muslim (Nikah)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Celebration Format</label>
+            <select id="blendDays" class="form-control">
+              <option value="2">2 Days (Traditional Weekend)</option>
+              <option value="3">3 Days (Extended Festivities)</option>
+            </select>
+          </div>
+
+          <button class="btn-gold" onclick="generateHarmonizedTimeline()">
+            <i class="fa-solid fa-sparkles"></i> Generate Harmonized Plan
+          </button>
+        </div>
+      </div>
+
+      <!-- Harmonizer Synergies & Results -->
+      <div id="harmonizerOutput">
+        <!-- Dynamic content injected here -->
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 3: TRADITIONS & RITUALS ENCYCLOPEDIA
+         ======================================================== -->
+    <section id="view-rituals" class="view-section">
+      <div class="rituals-filter-row">
+        <div>
+          <h2 style="font-family: var(--font-heading); color: var(--primary-burgundy); font-size: 1.6rem;">Sacred Traditions Directory</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Explore authentic rituals with symbolic meanings, required items, and guest tips.</p>
+        </div>
+        <button class="btn-primary" onclick="openModal('modal-ritual')">
+          <i class="fa-solid fa-plus"></i> Add Custom Ritual
+        </button>
+      </div>
+
+      <div class="rituals-filter-row">
+        <div class="filter-chips" id="cultureFilterChips">
+          <button class="filter-chip active" onclick="filterRituals('All')">All Cultures</button>
+          <button class="filter-chip" onclick="filterRituals('Hindu')">Hindu</button>
+          <button class="filter-chip" onclick="filterRituals('Sikh')">Sikh</button>
+          <button class="filter-chip" onclick="filterRituals('Christian')">Christian</button>
+          <button class="filter-chip" onclick="filterRituals('Muslim')">Muslim</button>
+        </div>
+      </div>
+
+      <div class="cards-grid" id="ritualsDirectoryGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 4: GUEST MANAGEMENT & RSVP
+         ======================================================== -->
+    <section id="view-guests" class="view-section">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon emerald">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <div class="kpi-info">
+            <h3>Confirmed Guests</h3>
+            <div class="kpi-val" id="guestCountConfirmed">0</div>
+            <div class="kpi-subtext">Across All Ceremonies</div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon gold">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <div class="kpi-info">
+            <h3>Awaiting RSVP</h3>
+            <div class="kpi-val" id="guestCountPending">0</div>
+            <div class="kpi-subtext">Pending Invitations</div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon burgundy">
+            <i class="fa-solid fa-utensils"></i>
+          </div>
+          <div class="kpi-info">
+            <h3>Dietary Requirements</h3>
+            <div class="kpi-val" id="guestDietaryCount">0</div>
+            <div class="kpi-subtext" id="guestDietaryDetails">Jain, Halal & Vegan</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="table-toolbar">
+          <div class="search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="guestSearchInput" class="form-control" placeholder="Search guests by name or dietary..." oninput="handleGuestSearch()">
+          </div>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <select id="guestSideFilter" class="form-control" onchange="loadGuests()">
+              <option value="All">All Sides</option>
+              <option value="Bride">Bride's Family</option>
+              <option value="Groom">Groom's Family</option>
+              <option value="Mutual">Mutual Friends</option>
+            </select>
+
+            <select id="guestRsvpFilter" class="form-control" onchange="loadGuests()">
+              <option value="All">All RSVP Statuses</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Pending">Pending</option>
+              <option value="Declined">Declined</option>
+            </select>
+
+            <button class="btn-primary" onclick="openModal('modal-guest')">
+              <i class="fa-solid fa-user-plus"></i> New Guest
+            </button>
+          </div>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Guest Name</th>
+              <th>Side / Group</th>
+              <th>Status</th>
+              <th>Dietary Note</th>
+              <th>Rituals Attending</th>
+              <th>Table</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="guestsTableBody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 5: BUDGET & EXPENSE MANAGER
+         ======================================================== -->
+    <section id="view-budget" class="view-section">
+      <div class="budget-progress-wrap">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-primary); font-weight: 700;">Financial Overview</span>
+            <h2 style="font-family: var(--font-heading); font-size: 1.8rem; color: var(--primary-burgundy);">Total Wedding Budget: <span id="budgetTotalDisplay">₹35,00,000</span></h2>
+          </div>
+          <button class="btn-gold" onclick="openModal('modal-budget')">
+            <i class="fa-solid fa-plus"></i> Record Expense
+          </button>
+        </div>
+
+        <div class="meter-track">
+          <div class="meter-bar" id="budgetProgressBar" style="width: 45%;"></div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">
+          <div>Committed Cost: <span id="budgetSpentDisplay" style="color: var(--primary-crimson);">₹0</span></div>
+          <div>Pending Invoices: <span id="budgetPendingDisplay" style="color: #d97706;">₹0</span></div>
+          <div>Unallocated Remaining: <span id="budgetRemainingDisplay" style="color: #059669;">₹0</span></div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="table-toolbar">
+          <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--primary-burgundy);">Expense Breakdown by Vendor & Category</h3>
+          <select id="budgetCategoryFilter" class="form-control" onchange="loadBudget()">
+            <option value="All">All Categories</option>
+            <option value="Venue & Hospitality">Venue & Hospitality</option>
+            <option value="Catering & Bar">Catering & Bar</option>
+            <option value="Decor & Mandap">Decor & Mandap</option>
+            <option value="Photography & Video">Photography & Video</option>
+            <option value="Music & Entertainment">Music & Entertainment</option>
+            <option value="Attire & Jewellery">Attire & Jewellery</option>
+          </select>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Item / Service</th>
+              <th>Category</th>
+              <th>Vendor</th>
+              <th>Contract Cost</th>
+              <th>Paid So Far</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="budgetTableBody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 6: CULTURAL VENDORS DIRECTORY
+         ======================================================== -->
+    <section id="view-vendors" class="view-section">
+      <div class="rituals-filter-row">
+        <div>
+          <h2 style="font-family: var(--font-heading); color: var(--primary-burgundy); font-size: 1.6rem;">Specialized Cross-Cultural Vendors</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Handpicked professionals experienced in bilingual ceremonies, dietary separation, and multi-faith customs.</p>
+        </div>
+        <button class="btn-primary" onclick="openModal('modal-vendor')">
+          <i class="fa-solid fa-plus"></i> Add Vendor
+        </button>
+      </div>
+
+      <div class="table-toolbar" style="background: #ffffff; border-radius: var(--radius-md); margin-bottom: 1.5rem; border: 1px solid var(--border-card);">
+        <div class="search-input-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="vendorSearchInput" class="form-control" placeholder="Search by name, city or specialty..." oninput="handleVendorSearch()">
+        </div>
+        <select id="vendorCategoryFilter" class="form-control" onchange="loadVendors()">
+          <option value="All">All Service Categories</option>
+          <option value="Ritual Officiants">Ritual Officiants</option>
+          <option value="Catering">Catering</option>
+          <option value="Decor & Florals">Decor & Florals</option>
+          <option value="Henna & Mehndi">Henna & Mehndi</option>
+          <option value="Entertainment">Entertainment</option>
+        </select>
+      </div>
+
+      <div class="cards-grid" id="vendorsGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 7: CHECKLIST & TIMELINE MILESTONES
+         ======================================================== -->
+    <section id="view-tasks" class="view-section">
+      <div class="rituals-filter-row">
+        <div>
+          <h2 style="font-family: var(--font-heading); color: var(--primary-burgundy); font-size: 1.6rem;">Countdown Checklist & Milestones</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Cultural to-dos from 12 months before to wedding day rituals.</p>
+        </div>
+        <button class="btn-primary" onclick="openModal('modal-task')">
+          <i class="fa-solid fa-plus"></i> Add New Task
+        </button>
+      </div>
+
+      <div id="tasksListContainer">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 8: GUEST COMPANION GUIDE
+         ======================================================== -->
+    <section id="view-companion" class="view-section">
+      <div class="harmonizer-banner">
+        <div class="section-head">
+          <h2><i class="fa-solid fa-book-open"></i> The Cross-Cultural Guest Companion</h2>
+          <p>A shareable etiquette guide ensuring all guests feel comfortable, welcomed, and informed across both traditions.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="ritual-card">
+            <h3 style="font-family: var(--font-heading); color: var(--primary-burgundy); font-size: 1.25rem; margin-bottom: 0.75rem;">
+              <i class="fa-solid fa-vest-patches" style="color: var(--gold-primary);"></i> Attire & Color Etiquette
+            </h3>
+            <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+              <p><strong>Auspicious Colors:</strong> Bright jewel tones, yellow for Haldi, emerald & teal for Sangeet, and pastel pinks/peaches for Anand Karaj.</p>
+              <p style="margin-top: 8px;"><strong>Colors to Avoid:</strong> Plain black or stark white are traditionally associated with mourning in Eastern customs.</p>
+              <p style="margin-top: 8px;"><strong>Head Coverings:</strong> Required at Gurdwara ceremonies. Beautiful ceremonial rumals and chunnis are provided at the entrance.</p>
+            </div>
+          </div>
+
+          <div class="ritual-card">
+            <h3 style="font-family: var(--font-heading); color: var(--primary-burgundy); font-size: 1.25rem; margin-bottom: 0.75rem;">
+              <i class="fa-solid fa-hand-holding-heart" style="color: var(--gold-primary);"></i> Gift Customs (Shagun)
+            </h3>
+            <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+              <p><strong>The +1 Rule:</strong> Monetary envelopes (Shagun) typically end in '1' (e.g. ₹501, ₹1101, ₹2101, ₹5001) as an odd number signifies an unbroken cycle of prosperity.</p>
+              <p style="margin-top: 8px;"><strong>Blessings:</strong> Elders bless the couple with touch of hands on head; feel free to exchange warm hugs and Namaste.</p>
+            </div>
+          </div>
+
+          <div class="ritual-card">
+            <h3 style="font-family: var(--font-heading); color: var(--primary-burgundy); font-size: 1.25rem; margin-bottom: 0.75rem;">
+              <i class="fa-solid fa-bowl-rice" style="color: var(--gold-primary);"></i> Dining & Dietary Respect
+            </h3>
+            <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+              <p><strong>Strict Segregation:</strong> Separate gourmet kitchens for pure Jain (no root vegetables), Vegetarian, Halal, and Global cuisine.</p>
+              <p style="margin-top: 8px;"><strong>Langar:</strong> During Sikh ceremonies, simple sanctified vegetarian food (Langar) is enjoyed together sitting as equals on the floor.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================
+       MODALS
+       ======================================================== -->
+
+  <!-- Modal: Add/Edit Guest -->
+  <div id="modal-guest" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Wedding Guest</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-guest')">&times;</button>
+      </div>
+      <form id="formAddGuest" onsubmit="submitGuestForm(event)">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Full Name *</label>
+            <input type="text" id="guestInputName" class="form-control" required placeholder="e.g. Priya & Rahul Verma">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>Side / Clan</label>
+              <select id="guestInputSide" class="form-control">
+                <option value="Bride">Bride's Family</option>
+                <option value="Groom">Groom's Family</option>
+                <option value="Mutual">Mutual Friends</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Relationship</label>
+              <input type="text" id="guestInputRel" class="form-control" placeholder="e.g. College Friend, Cousin">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>RSVP Status</label>
+              <select id="guestInputRsvp" class="form-control">
+                <option value="Confirmed">Confirmed</option>
+                <option value="Pending">Pending</option>
+                <option value="Declined">Declined</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Dietary Requirement</label>
+              <select id="guestInputDietary" class="form-control">
+                <option value="No Restrictions">No Restrictions</option>
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Jain (Strict)">Jain (Strict)</option>
+                <option value="Halal">Halal</option>
+                <option value="Vegan">Vegan</option>
+                <option value="Gluten-Free">Gluten-Free</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>Plus-Ones</label>
+              <input type="number" id="guestInputPlusOnes" class="form-control" value="0" min="0" max="10">
+            </div>
+            <div class="form-group">
+              <label>Assigned Table</label>
+              <input type="text" id="guestInputTable" class="form-control" placeholder="e.g. Table 04">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Ceremonies Attending (comma-separated)</label>
+            <input type="text" id="guestInputCeremonies" class="form-control" value="Haldi, Sangeet, Wedding, Reception">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-outline" onclick="closeModal('modal-guest')">Cancel</button>
+          <button type="submit" class="btn-primary">Save Guest</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Expense Item -->
+  <div id="modal-budget" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Record Budget Expense</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-budget')">&times;</button>
+      </div>
+      <form id="formAddBudget" onsubmit="submitBudgetForm(event)">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Expense Title *</label>
+            <input type="text" id="budgetInputTitle" class="form-control" required placeholder="e.g. Heritage Lawn Floral Mandap">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>Category</label>
+              <select id="budgetInputCategory" class="form-control">
+                <option value="Venue & Hospitality">Venue & Hospitality</option>
+                <option value="Catering & Bar">Catering & Bar</option>
+                <option value="Decor & Mandap">Decor & Mandap</option>
+                <option value="Photography & Video">Photography & Video</option>
+                <option value="Music & Entertainment">Music & Entertainment</option>
+                <option value="Attire & Jewellery">Attire & Jewellery</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Vendor Name</label>
+              <input type="text" id="budgetInputVendor" class="form-control" placeholder="e.g. Royal Decorators">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>Estimated Cost (₹)</label>
+              <input type="number" id="budgetInputEst" class="form-control" required placeholder="500000">
+            </div>
+            <div class="form-group">
+              <label>Paid Amount (₹)</label>
+              <input type="number" id="budgetInputPaid" class="form-control" value="0">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Payment Notes</label>
+            <input type="text" id="budgetInputNotes" class="form-control" placeholder="Advance token paid; balance due on wedding day">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-outline" onclick="closeModal('modal-budget')">Cancel</button>
+          <button type="submit" class="btn-gold">Record Expense</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Task -->
+  <div id="modal-task" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Checklist Task</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-task')">&times;</button>
+      </div>
+      <form id="formAddTask" onsubmit="submitTaskForm(event)">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Task Description *</label>
+            <input type="text" id="taskInputTitle" class="form-control" required placeholder="e.g. Order customized safas & chunnis for Baraat">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>Timeline Bucket</label>
+              <select id="taskInputTimeline" class="form-control">
+                <option value="6 Months Before">6 Months Before</option>
+                <option value="4 Months Before">4 Months Before</option>
+                <option value="2 Months Before">2 Months Before</option>
+                <option value="1 Month Before">1 Month Before</option>
+                <option value="2 Weeks Before">2 Weeks Before</option>
+                <option value="Week Of Wedding">Week Of Wedding</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Priority</label>
+              <select id="taskInputPriority" class="form-control">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Assigned To</label>
+            <input type="text" id="taskInputAssigned" class="form-control" placeholder="e.g. Aaryan & Hetvi">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-outline" onclick="closeModal('modal-task')">Cancel</button>
+          <button type="submit" class="btn-primary">Add Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Custom Ritual -->
+  <div id="modal-ritual" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Sacred Tradition / Ritual</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-ritual')">&times;</button>
+      </div>
+      <form id="formAddRitual" onsubmit="submitRitualForm(event)">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Ritual Name *</label>
+            <input type="text" id="ritualInputName" class="form-control" required placeholder="e.g. Joota Chupai & Milni Garland Exchange">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label>Culture / Tradition</label>
+              <select id="ritualInputCulture" class="form-control">
+                <option value="Hindu">Hindu</option>
+                <option value="Sikh">Sikh</option>
+                <option value="Christian">Christian</option>
+                <option value="Muslim">Muslim</option>
+                <option value="Interfaith">Interfaith Blended</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Typical Timing</label>
+              <input type="text" id="ritualInputTiming" class="form-control" placeholder="e.g. Day 2 - Afternoon">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Symbolic Meaning & Significance</label>
+            <textarea id="ritualInputSignificance" class="form-control" rows="2" placeholder="Explain the cultural significance..."></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Dress Code Advice</label>
+            <input type="text" id="ritualInputDress" class="form-control" placeholder="e.g. Traditional silks, cheerful pastels">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-outline" onclick="closeModal('modal-ritual')">Cancel</button>
+          <button type="submit" class="btn-gold">Save Ritual</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Database Connection Status -->
+  <div id="modal-db-status" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Database & Deployment Health</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-db-status')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="dbStatusDetails">Loading status...</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary" onclick="closeModal('modal-db-status')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>RitualRoute &bull; Cross-Cultural & Interfaith Wedding Planning Platform &bull; Built with <span>Node.js, Express & Firebase</span></p>
+  </footer>
+
+  <!-- Application Logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>

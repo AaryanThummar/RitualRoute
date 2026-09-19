@@ -1,0 +1,29 @@
+{
+  "name": "ritualroute",
+  "version": "1.0.0",
+  "description": "RitualRoute - A premier cross-cultural and interfaith wedding planning platform with ritual harmonization, multi-event RSVP, budget tracking, and cultural vendor directory.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "keywords": [
+    "wedding-planner",
+    "cross-cultural-wedding",
+    "interfaith-wedding",
+    "rituals",
+    "firebase",
+    "render",
+    "express"
+  ],
+  "author": "Aaryan Thumar",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.1.0"
+  }
+}
