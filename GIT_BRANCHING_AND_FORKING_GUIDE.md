@@ -178,7 +178,7 @@ cd ../..
 Run in your PowerShell terminal:
 ```powershell
 # Link your remote repository
-git remote add origin https://github.com/YOUR_USERNAME/cross-cultural-wedding-planner.git
+git remote add origin https://github.com/AaryanThummar/RitualRoute.git
 
 # Push Branch 1
 git push -u origin v1.0-core-foundation
